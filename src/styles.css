@@ -1,0 +1,70 @@
+#frame {
+  display: block;
+  width: calc(100% - max(6.6, 1em));
+  height: calc(100dvh - 200px);
+
+  margin: 0 auto;
+
+  border-radius: 1em;
+}
+
+#blobSvg {
+  display: none;
+  width: 100%;
+  height: calc(100dvh - 200px);
+}
+
+.ball-ilustration {
+  width: 100%;
+  height: calc(100dvh - 200px);
+
+  filter: url(#goo);
+}
+
+.ball-ilustration .ball {
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  
+  background-color: var(--accent);
+
+  stroke: black;
+}
+
+.name {
+  margin-top: 233px;
+  margin-bottom: 300px;
+
+  font-family: var(--arial);
+  font-size: 24px;
+
+}
+
+.bezier-ilustration {
+  margin: 0 auto;
+}
+
+.caption {
+
+}
+
+.gaussian-kernel-example {
+  width: calc(100vw - max(6.6vw, 1em));
+  height: calc(100dvh - max(6.6vw, 1em));
+
+  /* background-color: #000; */
+
+  margin: 0 auto;
+  
+  border-radius: 1em;
+}
+
+.gaussian-kernel-example svg {
+  width: 100%;
+  height: 100%;
+}
+
+.gaussian-with-color-matrix svg {
+  width: 100%;
+  height: 100%;
+}

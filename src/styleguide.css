@@ -1,0 +1,169 @@
+@font-face {
+  font-family: "Baskerville";
+  src: url(./assets/Baskervville-Medium.ttf);
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: "Arial";
+  src: url(./assets/Arial.ttf);
+  font-weight: 400;
+}
+
+:root {
+  --text: #444;
+  --text-h: #333;
+
+  --bg: #fff;
+  --border: #555555;
+
+  --accent: #A020A2;
+  --accent-border: #000;
+  --accent-shadow: rgb(160, 32, 162, 0.35);
+
+
+  --secondary: #4D6CEB;
+  --secondary-shadow: rgb(77, 108, 235, 0.35);
+
+  --accent-bg: rgba(170, 59, 255, 0.1);
+  --social-bg: rgba(244, 243, 236, 0.5);
+
+  --arial: "Arial", sans-serif;
+  --baskervville: "Baskerville";
+
+  --content-width: calc(42em);
+  --container-padding: 1em;
+  --section-padding: min(262px, 50vw);
+
+  font-family: var(--arial);
+  font-size: 24px;
+  font-synthesis: none;
+  text-rendering: geometricPrecision;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+section {
+  position: relative;
+
+  padding-top: var(--section-padding);
+}
+
+section:nth-child(1) {
+  padding-top: 320px;
+}
+
+section+section {
+  padding-top: 262px;
+}
+
+.container {
+  margin: 0 auto;
+  max-width: var(--content-width);
+
+  padding-inline: var(--container-padding);
+}
+
+.frame {
+  width: clamp(200px, calc(100vw - 2em), 1200px);
+  max-height: 1000px;
+  margin: 0 auto;
+
+  border: 1px solid var(--accent-border);
+}
+
+.s-xg {
+  margin-bottom: 128px;
+}
+
+.s-bg {
+  margin-bottom: 64px;
+}
+
+.s-md {
+  margin-bottom: 32px;
+}
+
+.s-sm {
+  margin-bottom: 16px;
+}
+
+.s-ty {
+  margin-bottom: 8px;
+}
+
+
+/* TYPOGRAPHY */
+
+.accent {
+  color: var(--accent);
+}
+
+.alert {}
+
+
+.center {
+  text-align: center;
+}
+
+.justify {
+  text-align: justify;
+}
+
+h1,
+h2 {
+  font-family: var(--baskervville);
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+h1 {
+  font-size: 58px;
+}
+
+h2 {
+  font-size: 58px;
+}
+
+h4 {
+  font-family: var(--baskervville);
+  text-align: center;
+  text-transform: uppercase;
+  font-size: 18px;
+}
+
+figcaption,
+small {
+  font-size: 16px;
+}
+
+em {
+  font-size: 1.1em;
+}
+
+p {
+  line-height: 1.6;
+  font-size: clamp(20px, 1.2vw, 1.5em);
+
+  color: #444;
+}
+
+/* UTILS */
+
+hr {
+  display: block;
+  border: none;
+
+  height: 0.5px;
+  background-image: linear-gradient(to right, #555 50%, transparent 50%);
+
+  background-size: 25px 100px;
+  background-repeat: repeat-x;
+}

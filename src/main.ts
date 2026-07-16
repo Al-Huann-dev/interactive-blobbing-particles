@@ -1,60 +1,129 @@
-import './style.css'
-import typescriptLogo from './assets/typescript.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import { setupCounter } from './counter.ts'
+import './styles.css'
+import "./styleguide.css"
+import "lenis/dist/lenis.css"
 
-document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
-<section id="center">
-  <div class="hero">
-    <img src="${heroImg}" class="base" width="170" height="179">
-    <img src="${typescriptLogo}" class="framework" alt="TypeScript logo"/>
-    <img src="${viteLogo}" class="vite" alt="Vite logo" />
-  </div>
-  <div>
-    <h1>Get started</h1>
-    <p>Edit <code>src/main.ts</code> and save to test <code>HMR</code></p>
-  </div>
-  <button id="counter" type="button" class="counter"></button>
-</section>
+import Lenis from "lenis"
+import 'katex/dist/katex.min.css'
+import renderMathInElement from 'katex/contrib/auto-render/auto-render.js'
+import GSAP from "gsap"
+import ScrollTrigger from "gsap/ScrollTrigger"
 
-<div class="ticks"></div>
+const svgEl = document.querySelector<SVGAElement>("#frame")!
 
-<section id="next-steps">
-  <div id="docs">
-    <svg class="icon" role="presentation" aria-hidden="true"><use href="/icons.svg#documentation-icon"></use></svg>
-    <h2>Documentation</h2>
-    <p>Your questions, answered</p>
-    <ul>
-      <li>
-        <a href="https://vite.dev/" target="_blank">
-          <img class="logo" src="${viteLogo}" alt="" />
-          Explore Vite
-        </a>
-      </li>
-      <li>
-        <a href="https://www.typescriptlang.org" target="_blank">
-          <img class="button-icon" src="${typescriptLogo}" alt="">
-          Learn more
-        </a>
-      </li>
-    </ul>
-  </div>
-  <div id="social">
-    <svg class="icon" role="presentation" aria-hidden="true"><use href="/icons.svg#social-icon"></use></svg>
-    <h2>Connect with us</h2>
-    <p>Join the Vite community</p>
-    <ul>
-      <li><a href="https://github.com/vitejs/vite" target="_blank"><svg class="button-icon" role="presentation" aria-hidden="true"><use href="/icons.svg#github-icon"></use></svg>GitHub</a></li>
-      <li><a href="https://chat.vite.dev/" target="_blank"><svg class="button-icon" role="presentation" aria-hidden="true"><use href="/icons.svg#discord-icon"></use></svg>Discord</a></li>
-      <li><a href="https://x.com/vite_js" target="_blank"><svg class="button-icon" role="presentation" aria-hidden="true"><use href="/icons.svg#x-icon"></use></svg>X.com</a></li>
-      <li><a href="https://bsky.app/profile/vite.dev" target="_blank"><svg class="button-icon" role="presentation" aria-hidden="true"><use href="/icons.svg#bluesky-icon"></use></svg>Bluesky</a></li>
-    </ul>
-  </div>
-</section>
+function initScripts() {
+  initCursorInteractiveParticle()
+  initLenisScroll()
+  initKatex()
+  initAnimation()
+}
 
-<div class="ticks"></div>
-<section id="spacer"></section>
-`
+function initCursorInteractiveParticle() {
+  console.log("initCursorInteractive")
+  let x = 0
+  let mouseX: number
+  // const mouseDisplayX = document.getElementById('mouse')
+  let y = 0
+  let mouseY: number
+  let isRunning = false
 
-setupCounter(document.querySelector<HTMLButtonElement>('#counter')!)
+  const setX = GSAP.quickSetter("#cursor-group", "x", "px")
+  const setY = GSAP.quickSetter("#cursor-group", "y", "px")
+
+  svgEl.addEventListener("mousemove", (e) => {
+    mouseX = e.offsetX
+    mouseY = e.offsetY
+
+    if (!isRunning) {
+      isRunning = true
+      update()
+    }
+  })
+
+  function update() {
+    const dx = mouseX - x
+    const dy = mouseY - y
+
+    const newX = GSAP.utils.interpolate(x, mouseX, 0.06)
+    const newY = GSAP.utils.interpolate(y, mouseY, 0.06)
+
+    x = newX
+    y = newY
+
+    setX(x)
+    setY(y)
+
+
+    const r = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2))
+
+    if (r > 0.2) {
+      requestAnimationFrame(update)
+    } else {
+      setX(x)
+      setY(y)
+
+      isRunning = false
+      console.log("Parou")
+    }
+  }
+
+}
+
+function initLenisScroll() {
+  const lenis = new Lenis({
+    autoRaf: true
+  })
+
+  lenis.on("scroll", () => ScrollTrigger.update)
+
+  GSAP.ticker.add((time) => {
+    lenis.raf(time * 1000)
+  })
+
+  GSAP.ticker.lagSmoothing(0)
+
+  function raf(time: number) {
+    lenis.raf(time)
+    requestAnimationFrame(raf)
+  }
+
+  requestAnimationFrame(raf)
+}
+
+function initKatex() {
+  console.log("KaTeX inicializado com sucesso.");
+
+  renderMathInElement(document.body, {
+    // @ts-ignore
+    throwOnError: false,
+    errorColor: '#ff3366',
+    delimiters: [
+      { left: '$$', right: '$$', display: true },
+      { left: '$', right: '$', display: false },
+    ],
+  });
+}
+
+function initAnimation() {
+  const circle1 = document.querySelector<SVGCircleElement>(".gaussian-kernel-example circle:nth-of-type(2)")
+  const circle2 = document.querySelector<SVGCircleElement>(".gaussian-kernel-example circle:nth-of-type(1)")
+
+  const tl = GSAP.timeline()
+
+  tl.from(circle1, { cx: "25%" })
+  tl.from(circle1, { cx: "75%" })
+
+  tl.to(circle1, { repeat: -1, cx: "45%", yoyo: true, duration: 1.2, ease: "sine" }, 0)
+  tl.to(circle2, { repeat: -1, cx: "55%", yoyo: true, duration: 1.2, ease: "sine" }, 0)
+
+  const circle3 = document.querySelector<SVGCircleElement>(".gaussian-with-color-matrix circle:nth-of-type(3)")
+  const circle4 = document.querySelector<SVGCircleElement>(".gaussian-with-color-matrix circle:nth-of-type(2)")
+
+  tl.from(circle3, { cx: "25%" })
+  tl.from(circle4, { cx: "75%" })
+
+  tl.to(circle3, { repeat: -1, cx: "45%", yoyo: true, duration: 1.2, ease: "sine" }, 0)
+  tl.to(circle4, { repeat: -1, cx: "55%", yoyo: true, duration: 1.2, ease: "sine" }, 0)
+}
+
+
+document.addEventListener("DOMContentLoaded", () => initScripts())
